@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Assets/dude.png" type="Texture2D" id=1]
+[ext_resource path="res://Scenes/LittleDude.gd" type="Script" id=2]
+[ext_resource path="res://addons/randomAudioStreamPlayer/random_audio_stream_player.gd" type="Script" id=3]
+[ext_resource path="res://Assets/Sounds/fall.wav" type="AudioStream" id=4]
+[ext_resource path="res://Assets/Sounds/big-hit.wav" type="AudioStream" id=5]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 20.0
+
+[node name="Little Dude" type="CharacterBody2D"]
+script = ExtResource( 2 )
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2( 4, 4 )
+texture = ExtResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Fall" type="AudioStreamPlayer" parent="."]
+process_mode = 2
+volume_db = -3.0
+script = ExtResource( 3 )
+samples = [ ExtResource( 4 ) ]
+random_volume_range = 0
+random_pitch_range = 0.1
+
+[node name="BigHit" type="AudioStreamPlayer" parent="."]
+process_mode = 2
+volume_db = -3.0
+script = ExtResource( 3 )
+samples = [ ExtResource( 5 ) ]
+random_volume_range = 0
+random_pitch_range = 0.3

@@ -1,0 +1,56 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/LittleDude.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Score.gd" type="Script" id=3]
+[ext_resource path="res://Scenes/Interface.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/randomAudioStreamPlayer/random_audio_stream_player.gd" type="Script" id=5]
+[ext_resource path="res://Assets/Sounds/woohoo-01.wav" type="AudioStream" id=6]
+[ext_resource path="res://Assets/Sounds/woohoo-02.mp3" type="AudioStream" id=7]
+[ext_resource path="res://Assets/Sounds/woohoo-03.ogg" type="AudioStream" id=8]
+[ext_resource path="res://Scenes/Level.gd" type="Script" id=9]
+[ext_resource path="res://Assets/Sounds/ambience.wav" type="AudioStream" id=10]
+
+[sub_resource type="RectangleShape2D" id=1]
+size = Vector2( 10, 384 )
+
+[node name="Level" type="Node2D"]
+script = ExtResource( 9 )
+
+[node name="Trampoline" parent="." instance=ExtResource( 1 )]
+position = Vector2( 512, 704 )
+
+[node name="Border" type="StaticBody2D" parent="." groups=["Wall"]]
+
+[node name="left" type="CollisionShape2D" parent="Border"]
+position = Vector2( -10, 384 )
+shape = SubResource( 1 )
+
+[node name="right" type="CollisionShape2D" parent="Border"]
+position = Vector2( 1034, 384 )
+shape = SubResource( 1 )
+
+[node name="Little Dude" parent="." instance=ExtResource( 2 )]
+position = Vector2( 512, 384 )
+
+[node name="Interface" parent="." instance=ExtResource( 4 )]
+offset_right = 1024.0
+offset_bottom = 768.0
+
+[node name="Score" type="Node" parent="."]
+script = ExtResource( 3 )
+
+[node name="Woohoo" type="AudioStreamPlayer" parent="Score"]
+volume_db = -3.0
+script = ExtResource( 5 )
+samples = [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ) ]
+random_strategy = 1
+random_volume_range = 0
+random_pitch_range = 0.3
+
+[node name="Ambience" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 10 )
+volume_db = -9.0
+autoplay = true
+
+[connection signal="score_changed" from="Score" to="Interface" method="_on_Score_score_changed"]
